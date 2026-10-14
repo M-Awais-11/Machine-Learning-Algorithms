@@ -29,7 +29,7 @@ More algorithms will be added as new projects are completed.
 ## Getting Started
 
 ```bash
-git clone https://github.com/<your-username>/machine-learning-algorithms.git
+git clone https://github.com/M-Awais-11/Machine-Learning-Algorithms.git
 cd machine-learning-algorithms
 
 python -m venv .venv
