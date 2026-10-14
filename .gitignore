@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Large files: trained models and datasets
+*.h5
+*.keras
+*.pkl
+*.joblib
+*.zip
+*.tar.gz
+models/
+**/dataset/
+**/flower_photos/
+
+# Environment variables
+.env
