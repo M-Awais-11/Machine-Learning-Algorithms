@@ -1,0 +1,7 @@
+Cluster,Customers,Avg_Age,Avg_Income,Avg_Spending,Female_Ratio,Segment_Name,Marketing_Action
+0,45,56.3,54.3,49.1,0.6,"Older, Mid-income, moderate-spending","Cross-sell and upsell, reward-based programmes to nudge spending upward. Channel: email/SMS, comfort and value-focused messaging."
+1,39,26.8,57.1,48.1,0.6,"Young, Mid-income, moderate-spending","Cross-sell and upsell, reward-based programmes to nudge spending upward. Channel: Instagram/TikTok, events, trendy brands."
+2,33,41.9,88.9,17.0,0.4,"Middle-aged, High-income, low-spending","Untapped potential: personalised premium offers, luxury brands, exclusive events to raise engagement."
+3,39,32.7,86.5,82.1,0.5,"Young, High-income, high-spending","VIP/loyalty programme, premium launches, early access to new collections. Channel: Instagram/TikTok, events, trendy brands."
+4,23,25.0,25.3,77.6,0.6,"Young, Low-income, high-spending","Discounts, installment/cashback offers, bundle deals; watch for churn if prices rise. Channel: Instagram/TikTok, events, trendy brands."
+5,21,45.5,26.3,19.4,0.6,"Older, Low-income, low-spending","Low priority: low-cost coupons and seasonal sales only; avoid heavy marketing spend. Channel: email/SMS, comfort and value-focused messaging."
