@@ -6,5 +6,5 @@ scikit-learn
 tensorflow
 jupyter
 joblib
-
-
+imbalanced-learn
+xgboost 
