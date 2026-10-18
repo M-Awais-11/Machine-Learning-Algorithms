@@ -1,0 +1,12 @@
+flowchart TD
+    ML["Machine Learning"] --> SL["Supervised Learning<br/>labels available"]
+    ML --> UL["Unsupervised Learning<br/>no labels"]
+    ML --> RL["Reinforcement Learning"]
+    SL --> CLS["Classification"]
+    SL --> REG["Regression"]
+    UL --> CLU["Clustering"]
+    UL --> DIM["Dimensionality Reduction"]
+    CLU --> KM["K-Means"]
+    CLU --> HC["Hierarchical Clustering"]
+    CLU --> DB["DBSCAN"]
+    style HC fill:#f9c74f,stroke:#333,stroke-width:2px

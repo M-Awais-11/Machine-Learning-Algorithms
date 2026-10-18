@@ -1,0 +1,9 @@
+flowchart TD
+    Q{"How to choose<br/>a linkage?"} --> A{"Using Euclidean<br/>distance?"}
+    A -- "Yes" --> B{"Want compact, evenly<br/>sized clusters?"}
+    A -- "No" --> AV["Average or Complete"]
+    B -- "Yes" --> W["Ward Linkage"]
+    B -- "No" --> C{"Expect long or<br/>irregular clusters?"}
+    C -- "Yes" --> S["Single Linkage"]
+    C -- "No" --> AV
+    style W fill:#90be6d

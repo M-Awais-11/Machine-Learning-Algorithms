@@ -1,0 +1,20 @@
+flowchart TD
+    A[("Online Retail II<br/>~1.07M rows")] --> B["Data Cleaning"]
+    B --> B1["Drop missing Customer ID<br/>243k rows"]
+    B --> B2["Drop cancellations<br/>Invoice starts with 'C'"]
+    B --> B3["Drop negative Quantity / Price"]
+    B1 --> C["Clean Transactions"]
+    B2 --> C
+    B3 --> C
+    C --> D["RFM Feature Engineering<br/>one row per customer"]
+    D --> E["Log Transform<br/>reduce skewness"]
+    E --> F["StandardScaler<br/>put features on equal scale"]
+    F --> G["Compare linkages<br/>Ward / Average / Complete"]
+    G --> H["Build the dendrogram"]
+    H --> I["Choose K<br/>dendrogram + silhouette"]
+    I --> J["Fit AgglomerativeClustering"]
+    J --> K["Cluster Profiling"]
+    K --> L["Visualization<br/>PCA / 3D plot"]
+    L --> M["Business Recommendations"]
+    style A fill:#577590,color:#fff
+    style M fill:#90be6d

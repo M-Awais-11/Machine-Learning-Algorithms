@@ -44,20 +44,7 @@ Hierarchical Clustering is an **unsupervised machine learning** algorithm that g
 
 ## 2. Where it fits in Machine Learning
 
-```mermaid
-flowchart TD
-    ML["Machine Learning"] --> SL["Supervised Learning<br/>labels available"]
-    ML --> UL["Unsupervised Learning<br/>no labels"]
-    ML --> RL["Reinforcement Learning"]
-    SL --> CLS["Classification"]
-    SL --> REG["Regression"]
-    UL --> CLU["Clustering"]
-    UL --> DIM["Dimensionality Reduction"]
-    CLU --> KM["K-Means"]
-    CLU --> HC["Hierarchical Clustering"]
-    CLU --> DB["DBSCAN"]
-    style HC fill:#f9c74f,stroke:#333,stroke-width:2px
-```
+![Machine learning overview](diagrams/01_ml_overview.png)
 
 ---
 
@@ -71,23 +58,7 @@ flowchart TD
 | End | One cluster containing everything | Every point is its own cluster |
 | Usage | **Very common (used in this project)** | Rare, computationally expensive |
 
-```mermaid
-flowchart LR
-    subgraph AGG["Agglomerative: Bottom-Up"]
-        direction TB
-        A1["A  B  C  D  E<br/>5 clusters"] --> A2["AB  C  D  E<br/>4 clusters"]
-        A2 --> A3["AB  CD  E<br/>3 clusters"]
-        A3 --> A4["ABCD  E<br/>2 clusters"]
-        A4 --> A5["ABCDE<br/>1 cluster"]
-    end
-    subgraph DIV["Divisive: Top-Down"]
-        direction TB
-        D1["ABCDE<br/>1 cluster"] --> D2["ABCD  E<br/>2 clusters"]
-        D2 --> D3["AB  CD  E<br/>3 clusters"]
-        D3 --> D4["AB  C  D  E<br/>4 clusters"]
-        D4 --> D5["A  B  C  D  E<br/>5 clusters"]
-    end
-```
+![Agglomerative vs Divisive](diagrams/02_agglomerative_vs_divisive.png)
 
 ```
 Agglomerative (bottom to top):       Divisive (top to bottom):
@@ -115,21 +86,7 @@ Agglomerative (bottom to top):       Divisive (top to bottom):
 6. **Repeat steps 3 to 5** until only one cluster remains.
 7. **Build the dendrogram** and cut it at a suitable height to obtain K clusters.
 
-```mermaid
-flowchart TD
-    S(["Start"]) --> I["Make each point its own cluster<br/>N clusters"]
-    I --> D["Compute the distance matrix"]
-    D --> F["Find the two closest clusters"]
-    F --> M["Merge them"]
-    M --> U["Update the distance matrix<br/>using the linkage method"]
-    U --> C{"Only 1 cluster<br/>left?"}
-    C -- "No" --> F
-    C -- "Yes" --> DG["Build the dendrogram"]
-    DG --> CUT["Cut at a chosen height<br/>to get K clusters"]
-    CUT --> E(["End"])
-    style S fill:#90be6d
-    style E fill:#f94144,color:#fff
-```
+![Algorithm flowchart](diagrams/03_algorithm_flowchart.png)
 
 ---
 
@@ -160,32 +117,11 @@ With single linkage, the distance between two clusters is the distance between t
 
 ### Resulting dendrogram
 
-```
-Distance
-   8 |                    ┌───────────────┐
-     |                    │               │
-   7 |                    │               │
-     |                    │               │
-   4 |          ┌─────────┴────┐          │
-     |          │              │          │
-   1 |      ┌───┴───┐      ┌───┴───┐      │
-     |      │       │      │       │      │
-   0 |      A       B      C       D      E
-```
+![Worked example dendrogram](diagrams/09_worked_example_dendrogram.png)
 
 ### On the number line
 
-```
- A B           C D                           E
- ●─●           ●─●                           ●
- 1 2           6 7                          15
- └┬┘           └┬┘
- {AB}          {CD}          <- formed first
- └──────┬───────┘
-      {ABCD}                 <- then this (distance 4)
-        └──────────────────────┬──────────┘
-                           {ABCDE}   <- last (distance 8)
-```
+![Merge order on number line](diagrams/10_number_line_merges.png)
 
 To get **K = 2**, cut the dendrogram between heights 4 and 8. This gives **{A, B, C, D}** and **{E}**, with E isolated as an outlier.
 
@@ -202,21 +138,7 @@ Distance measures how far apart two points are.
 | **Cosine** | 1 − cos(θ) | Text or high-dimensional data |
 | **Gower** | Mixed formula | Datasets with both numeric and categorical columns |
 
-```
-Euclidean vs Manhattan (between two points):
-
-   y
-   |            B ●
-   |           /|
-   |   Euclid / |  Manhattan
-   |         /  |  (horizontal + vertical)
-   |        /   |
-   |   A ●──────┘
-   |________________ x
-
-   Euclidean = straight diagonal line from A to B
-   Manhattan = walk along x first, then along y
-```
+![Euclidean vs Manhattan](diagrams/11_euclidean_vs_manhattan.png)
 
 > **In this project:** Euclidean distance with Ward linkage.
 
@@ -225,6 +147,8 @@ Euclidean vs Manhattan (between two points):
 ## 7. Linkage Methods
 
 The linkage method defines **how the distance between two clusters is measured**. It has the biggest influence on the shape of the resulting clusters.
+
+![Linkage methods](diagrams/12_linkage_methods.png)
 
 ### 7.1 Single Linkage (Minimum)
 
@@ -241,6 +165,8 @@ Distance between the **closest** pair of points, one from each cluster.
 
 - Pros: Can detect long, irregular clusters
 - Cons: **Chaining effect**, where clusters stretch into long chains. Sensitive to outliers
+
+![Chaining effect](diagrams/13_chaining_effect.png)
 
 ### 7.2 Complete Linkage (Maximum)
 
@@ -295,17 +221,7 @@ Merges the pair of clusters that causes the **smallest increase in within-cluste
 | Average | Intermediate | Low | Moderate | Good |
 | **Ward** | **Round, compact** | **Low** | **Even** | **Best default** |
 
-```mermaid
-flowchart TD
-    Q{"How to choose<br/>a linkage?"} --> A{"Using Euclidean<br/>distance?"}
-    A -- "Yes" --> B{"Want compact, evenly<br/>sized clusters?"}
-    A -- "No" --> AV["Average or Complete"]
-    B -- "Yes" --> W["Ward Linkage"]
-    B -- "No" --> C{"Expect long or<br/>irregular clusters?"}
-    C -- "Yes" --> S["Single Linkage"]
-    C -- "No" --> AV
-    style W fill:#90be6d
-```
+![Linkage selection guide](diagrams/04_linkage_selection.png)
 
 ---
 
@@ -318,19 +234,7 @@ A dendrogram is an upside-down tree where:
 - **Horizontal line:** two clusters being merged
 - **The taller the merge line, the more different** the merged clusters are
 
-```
-Height (distance)
-  ^
-  |                 ┌──────────────────────┐
-  |                 │                      │   <- very tall merge:
-  |                 │                      │      these 2 groups are very different
-  |        ┌────────┴──────┐        ┌──────┴────┐
-  |        │               │        │           │
-  |     ┌──┴──┐         ┌──┴──┐   ┌─┴─┐       ┌─┴─┐
-  |     │     │         │     │   │   │       │   │   <- low merges:
-  |     1     2         3     4   5   6       7   8      very similar points
-  +--------------------------------------------------> data points
-```
+![Reading a dendrogram](diagrams/14_reading_dendrogram.png)
 
 **Rules for reading:**
 
@@ -346,17 +250,7 @@ Height (distance)
 
 Draw a **horizontal line**. The number of vertical lines it crosses is the number of clusters.
 
-```
-Height
-  ^
-  |            ┌────────────────┐
-  |            │                │
-  | - - - - - -│- - - - - - - - │- - - - - -  <- cut line (K = 2)
-  |       ┌────┴───┐       ┌────┴───┐
-  | - - - │- - - - │- - - -│- - - - │- - - -  <- cut line (K = 4)
-  |     ┌─┴─┐    ┌─┴─┐   ┌─┴─┐    ┌─┴─┐
-  |     a   b    c   d   e   f    g   h
-```
+![Cutting the dendrogram](diagrams/15_cutting_dendrogram.png)
 
 **Rule of thumb:** Cut where the **longest vertical gap** between two successive merges occurs. That means the clusters are well separated.
 
@@ -371,6 +265,8 @@ a = average distance to points in its own cluster
 b = average distance to points in the nearest other cluster
 ```
 
+![Silhouette concept](diagrams/16_silhouette_concept.png)
+
 | Score | Meaning |
 |---|---|
 | Close to +1 | Excellent clustering |
@@ -379,12 +275,7 @@ b = average distance to points in the nearest other cluster
 
 Compute the score for K = 2, 3, 4, 5, 6 and pick the K with the **highest score**.
 
-```mermaid
-flowchart LR
-    A["Look at the dendrogram<br/>longest gap"] --> D["Final K"]
-    B["Silhouette score<br/>highest value"] --> D
-    C["Business sense<br/>is K actionable?"] --> D
-```
+![Choosing K](diagrams/05_choosing_k.png)
 
 > **In practice:** Use all three together. If K=2 scores best but the business needs 4 segments, K=4 can still be justified.
 
@@ -413,14 +304,7 @@ Clustering has no labels, so accuracy cannot be computed. Use these instead:
 | Memory | O(n²) for the distance matrix |
 | Practical limit | Roughly 5,000 to 20,000 rows |
 
-```
-Rows (n)      Pairs in distance matrix      Verdict
--------       ------------------------      ------------------
-  1,000                ~500 thousand        Fast, easy
-  5,000                ~12.5 million        Fine
- 20,000                ~200 million         Slow, heavy on RAM
-100,000                ~5 billion           Not feasible (use K-Means)
-```
+![Complexity growth](diagrams/17_complexity_growth.png)
 
 ### Pros and cons
 
@@ -446,44 +330,13 @@ Rows (n)      Pairs in distance matrix      Verdict
 | Cluster shape | Depends on linkage | Spherical |
 | Interpretability | Very high | Moderate |
 
-```mermaid
-flowchart TD
-    Q{"Which algorithm?"} --> N{"More than 10,000<br/>rows?"}
-    N -- "Yes" --> KM["K-Means"]
-    N -- "No" --> H{"Need a dendrogram<br/>and hierarchy?"}
-    H -- "Yes" --> HC["Hierarchical Clustering"]
-    H -- "No" --> K{"Is K known<br/>already?"}
-    K -- "Yes" --> KM
-    K -- "No" --> HC
-    style HC fill:#f9c74f
-```
+![K-Means vs Hierarchical](diagrams/06_kmeans_vs_hierarchical.png)
 
 ---
 
 ## 13. Project Pipeline
 
-```mermaid
-flowchart TD
-    A[("Online Retail II<br/>~1.07M rows")] --> B["Data Cleaning"]
-    B --> B1["Drop missing Customer ID<br/>243k rows"]
-    B --> B2["Drop cancellations<br/>Invoice starts with 'C'"]
-    B --> B3["Drop negative Quantity / Price"]
-    B1 --> C["Clean Transactions"]
-    B2 --> C
-    B3 --> C
-    C --> D["RFM Feature Engineering<br/>one row per customer"]
-    D --> E["Log Transform<br/>reduce skewness"]
-    E --> F["StandardScaler<br/>put features on equal scale"]
-    F --> G["Compare linkages<br/>Ward / Average / Complete"]
-    G --> H["Build the dendrogram"]
-    H --> I["Choose K<br/>dendrogram + silhouette"]
-    I --> J["Fit AgglomerativeClustering"]
-    J --> K["Cluster Profiling"]
-    K --> L["Visualization<br/>PCA / 3D plot"]
-    L --> M["Business Recommendations"]
-    style A fill:#577590,color:#fff
-    style M fill:#90be6d
-```
+![Project pipeline](diagrams/07_project_pipeline.png)
 
 ### What is RFM?
 
@@ -493,38 +346,11 @@ flowchart TD
 | **F**requency | Number of distinct invoices | How often do they buy? | **Higher** is better |
 | **M**onetary | Total amount spent | How much do they spend? | **Higher** is better |
 
-```
-Data transformation:
-
-  Before (transactions):              After (customers):
-  ┌──────────┬───────┬───────┐       ┌──────────┬─────┬─────┬──────┐
-  │ Customer │ Item  │ Price │       │ Customer │  R  │  F  │  M   │
-  ├──────────┼───────┼───────┤       ├──────────┼─────┼─────┼──────┤
-  │  12346   │   A   │  10   │       │  12346   │ 325 │  2  │ 77k  │
-  │  12346   │   B   │  25   │  ──►  │  12347   │  2  │  8  │ 4.3k │
-  │  12347   │   A   │  10   │       │  12348   │ 75  │  5  │ 1.7k │
-  │  12347   │   C   │  40   │       └──────────┴─────┴─────┴──────┘
-  │   ...    │  ...  │  ...  │         ~5,900 rows (a good size
-  └──────────┴───────┴───────┘          for hierarchical clustering)
-   ~800,000 rows
-```
+![RFM transformation](diagrams/18_rfm_transformation.png)
 
 ### Why log transform and scaling?
 
-```
-Monetary distribution (no log):             After log:
-
- Count                                       Count
-  |█                                          |      ███
-  |█                                          |    ███████
-  |██                                         |   █████████
-  |███                                        |  ███████████
-  |██████________________ ►                   |_█████████████__ ►
-  0      10k    100k  Monetary                    log(Monetary)
-
-  Many low spenders, a few huge ones         Close to a normal shape,
-  (right-skewed)                             better for clustering
-```
+![Log transform effect](diagrams/19_log_transform_effect.png)
 
 - **Log transform** brings skewed features (Frequency, Monetary) closer to a normal distribution
 - **StandardScaler** puts all features at mean=0, std=1 so that no single feature (such as Monetary) dominates the distance
@@ -662,13 +488,7 @@ The table below is an **illustrative example**. Your actual numbers will differ.
 
 ### Strategy for each segment
 
-```mermaid
-flowchart LR
-    C0["Champions"] --> S0["VIP rewards<br/>early access<br/>referral program"]
-    C1["Loyal Customers"] --> S1["Upselling<br/>loyalty points<br/>bundles"]
-    C2["At Risk"] --> S2["Discount offers<br/>win-back emails<br/>personal reminders"]
-    C3["Lost"] --> S3["Run a survey<br/>last attempt<br/>or save the budget"]
-```
+![Segment strategy](diagrams/08_segment_strategy.png)
 
 ---
 

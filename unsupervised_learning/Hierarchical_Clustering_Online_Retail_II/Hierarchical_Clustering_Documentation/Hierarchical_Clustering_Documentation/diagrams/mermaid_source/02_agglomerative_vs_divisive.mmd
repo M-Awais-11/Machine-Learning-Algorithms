@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph AGG["Agglomerative: Bottom-Up"]
+        direction TB
+        A1["A  B  C  D  E<br/>5 clusters"] --> A2["AB  C  D  E<br/>4 clusters"]
+        A2 --> A3["AB  CD  E<br/>3 clusters"]
+        A3 --> A4["ABCD  E<br/>2 clusters"]
+        A4 --> A5["ABCDE<br/>1 cluster"]
+    end
+    subgraph DIV["Divisive: Top-Down"]
+        direction TB
+        D1["ABCDE<br/>1 cluster"] --> D2["ABCD  E<br/>2 clusters"]
+        D2 --> D3["AB  CD  E<br/>3 clusters"]
+        D3 --> D4["AB  C  D  E<br/>4 clusters"]
+        D4 --> D5["A  B  C  D  E<br/>5 clusters"]
+    end

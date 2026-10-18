@@ -1,0 +1,13 @@
+flowchart TD
+    S(["Start"]) --> I["Make each point its own cluster<br/>N clusters"]
+    I --> D["Compute the distance matrix"]
+    D --> F["Find the two closest clusters"]
+    F --> M["Merge them"]
+    M --> U["Update the distance matrix<br/>using the linkage method"]
+    U --> C{"Only 1 cluster<br/>left?"}
+    C -- "No" --> F
+    C -- "Yes" --> DG["Build the dendrogram"]
+    DG --> CUT["Cut at a chosen height<br/>to get K clusters"]
+    CUT --> E(["End"])
+    style S fill:#90be6d
+    style E fill:#f94144,color:#fff

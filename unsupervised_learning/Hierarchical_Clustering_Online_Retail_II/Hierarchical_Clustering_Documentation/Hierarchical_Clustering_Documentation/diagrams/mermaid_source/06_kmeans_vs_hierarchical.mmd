@@ -1,0 +1,9 @@
+flowchart TD
+    Q{"Which algorithm?"} --> N{"More than 10,000<br/>rows?"}
+    N -- "Yes" --> KM["K-Means"]
+    N -- "No" --> H{"Need a dendrogram<br/>and hierarchy?"}
+    H -- "Yes" --> HC["Hierarchical Clustering"]
+    H -- "No" --> K{"Is K known<br/>already?"}
+    K -- "Yes" --> KM
+    K -- "No" --> HC
+    style HC fill:#f9c74f
