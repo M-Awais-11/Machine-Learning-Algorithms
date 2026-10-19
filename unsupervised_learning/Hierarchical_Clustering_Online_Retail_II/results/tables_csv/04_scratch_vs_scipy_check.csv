@@ -1,0 +1,5 @@
+linkage,merge heights match SciPy,max abs difference
+single,True,0.0
+complete,True,0.0
+average,True,2.220446049250313e-16
+ward,True,3.552713678800501e-15
