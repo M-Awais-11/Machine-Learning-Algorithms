@@ -1,0 +1,7 @@
+step,rows_left,total_removed
+raw,1067371,0
+drop missing Customer ID,824364,243007
+drop cancellations (C...),805620,261751
+drop Quantity<=0 or Price<=0,805549,261822
+drop non-product codes,802890,264481
+drop duplicates,776830,290541
