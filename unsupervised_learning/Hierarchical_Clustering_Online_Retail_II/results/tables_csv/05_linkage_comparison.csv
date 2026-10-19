@@ -1,5 +1,0 @@
-linkage,cophenetic_corr,silhouette_K4,cluster_sizes_K4
-single,0.438,0.1116,"[5850, 1, 1, 1]"
-complete,0.6286,0.1894,"[172, 658, 3191, 1832]"
-average,0.6969,0.3576,"[3339, 2413, 10, 91]"
-ward,0.6084,0.2704,"[1055, 2434, 868, 1496]"
